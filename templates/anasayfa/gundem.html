@@ -1,0 +1,197 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>Gossip</title>
+		<!-- Bootstrap -->
+		<link rel="stylesheet" href="{% static 'scripts/bootstrap/bootstrap.min.css' %}">
+		<!-- IonIcons -->
+		<link rel="stylesheet" href="{% static 'scripts/ionicons/css/ionicons.min.css' %}">
+		<!-- Toast -->
+		<link rel="stylesheet" href="{% static 'scripts/toast/jquery.toast.min.css' %}">
+		<!-- OwlCarousel -->
+		<link rel="stylesheet" href="{% static 'scripts/owlcarousel/dist/assets/owl.carousel.min.css' %}">
+		<link rel="stylesheet" href="{% static 'scripts/owlcarousel/dist/assets/owl.theme.default.min.css' %}">
+		<!-- Magnific Popup -->
+		<link rel="stylesheet" href="{% static 'scripts/magnific-popup/dist/magnific-popup.css' %}">
+		<link rel="stylesheet" href="{% static 'scripts/sweetalert/dist/sweetalert.css' %}">
+		<!-- Custom style -->
+		<link rel="stylesheet" href="{% static 'css/style.css' %}">
+		<link rel="stylesheet" href="{% static 'css/skins/all.css' %}">
+		<link rel="stylesheet" href="{% static 'css/demo.css' %}">
+	</head>
+
+	<body>
+		<header class="primary">
+			<div class="firstbar">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-3 col-sm-12">
+							<div class="brand">
+								<a href="{% url 'anasayfa' %}">
+									<img src="/static/image/logo.png" width=100 height=50 alt="Gossip Logo">
+								</a>
+							</div>
+						</div>
+						<div class="col-md-6 col-sm-12">
+							<form class="search" autocomplete="off">
+								<div class="form-group">
+									<div class="input-group">
+										<input type="text" name="q" class="form-control" placeholder="Type something here">
+										<div class="input-group-btn">
+											<button class="btn btn-primary"><i class="ion-search"></i></button>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+						 {% if select_tip  != None  and  request.user.is_authenticated %}
+                            <div class="col-md-3 col-sm-12 text-right">
+                                <ul class="nav-icons">
+                                    <li><a href=""><i class="ion-person-add"></i><div>Bildirim</div></a></li>
+                                    <li><a href="{% url 'profil' %}"><i class="ion-person"></i><div>Editör</div></a></li>
+                                </ul>
+                            </div>
+
+                        {% elif  request.user.is_authenticated %}
+                            <div class="col-md-3 col-sm-12 text-right">
+                                <ul class="nav-icons">
+                                    <li><a href="{% url 'register' %}"><i class="ion-person-add"></i><div>Bildirim</div></a></li>
+                                    <li><a href="{% url 'profil' %}"><i class="ion-person"></i><div>Profil</div></a></li>
+                                </ul>
+                            </div>
+                        {% else  %}
+                            <div class="col-md-3 col-sm-12 text-right">
+                                <ul class="nav-icons">
+                                    <li><a href="{% url 'register' %}"><i class="ion-person-add"></i><div>Üye Ol</div></a></li>
+                                    <li><a href="{% url 'login' %}"><i class="ion-person"></i><div>Giris Yap</div></a></li>
+                                </ul>
+                            </div>
+                        {% endif %}
+					</div>
+				</div>
+			</div>
+
+			<!-- Start nav -->
+			<nav class="menu">
+				<div class="container">
+					<div class="brand">
+						<a href="#">
+							<img src="/static/image/logo.png" width=50 height=25>
+						</a>
+					</div>
+					<div class="mobile-toggle">
+						<a href="#" data-toggle="menu" data-target="#menu-list"><i class="ion-navicon-round"></i></a>
+					</div>
+					<div class="mobile-toggle">
+						<a href="#" data-toggle="sidebar" data-target="#sidebar"><i class="ion-ios-arrow-left"></i></a>
+					</div>
+					<div id="menu-list">
+						<ul class="nav-list">
+                            <li><a href="{% url 'anasayfa' %}">Ana Sayfa</a></li>
+							<li><a href="{% url 'gundem' %}">Gündem</a></li>
+                            <li><a href="{% url 'gossipözel' %}">Gossip Özel</a></li>
+							<li><a href="{% url 'sinema' %}">Sinema</a></li>
+                            <li><a href="{% url 'edebiyat' %}">Edebiyat</a></li>
+							<li><a href="{% url 'spor' %}">Spor</a></li>
+                            <li></li>
+							<li class="dropdown magz-dropdown">
+							</li>
+							<li class="dropdown magz-dropdown"><a href="#">Diğer <i class="ion-ios-arrow-right"></i></a>
+								<ul class="dropdown-menu">
+
+                                    {% for anasayfa in categories %}
+                                        <li><a href=""></i>{{ anasayfa.kategori_adi }}</a></li>
+                                    {% endfor %}
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+			<!-- End nav -->
+		</header>
+
+		<section>
+			<div class="container">
+				<p class="lead">
+                    {% for post in posts %}
+                        {{ post.icerik_bas }}<br>
+                     <img src="{{ post.icerik_foto.url }}" class="img-responsive" >
+                    {% endfor %}
+                </p>
+			</div>
+		</section>
+		<!-- Start footer -->
+			<footer class="footer">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-9 col-sm-6 col-xs-12">
+						<div class="block">
+							<h1 class="block-title">GOSSİP</h1>
+							<div class="block-body">
+								<p class="brand-description">
+									Yeni Nesil Sosyal Paylaşım Platformu.
+                                <p>
+                                &copy; GOSSİP 2019.
+                                Made with <i class="ion-heart"></i> by
+                                <a href="https://www.instagram.com/utku_unver/">Mikail Utku Ünver</a>
+                                </p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3 col-xs-3 col-sm-3">
+						<div class="block">
+							<h1 class="block-title">Bizi Takip Edin</h1>
+							<div class="block-body">
+								<ul class="social trp">
+									<li>
+										<a href="https://www.facebook.com/utkumikail.unver" class="facebook">
+											<svg><rect width="0" height="0"/></svg>
+											<i class="ion-social-facebook"></i>
+										</a>
+									</li>
+									<li>
+										<a href="https://twitter.com/m_utkuunver" class="twitter">
+											<svg><rect width="0" height="0"/></svg>
+											<i class="ion-social-twitter-outline"></i>
+										</a>
+									</li>
+									<li>
+										<a href="https://www.youtube.com/channel/UCEW8JO_B7gFQkbwYLI13vxg?view_as=subscriber" class="youtube">
+											<svg><rect width="0" height="0"/></svg>
+											<i class="ion-social-youtube-outline"></i>
+										</a>
+									</li>
+									<li>
+										<a href="https://www.instagram.com/utku_unver/" class="instagram">
+											<svg><rect width="0" height="0"/></svg>
+											<i class="ion-social-instagram-outline"></i>
+										</a>
+									</li>
+                                <a href="{% url 'hakkimizda' %}" class="btn btn-magz white">Hakkımızda</a>
+                                <a href="{% url 'iletisim' %}" class="btn btn-magz white">İletişim</a>
+								</ul>
+							</div>
+				        </div>
+                    </div>
+					</div>
+				</div>
+			</div>
+		</footer>
+		<!-- JS -->
+		<script src="{% static 'js/jquery.js' %}"></script>
+		<script src="{% static 'js/jquery.migrate.js' %}"></script>
+		<script src="{% static 'scripts/bootstrap/bootstrap.min.js' %}"></script>
+		<script src="{% static 'scripts/jquery-number/jquery.number.min.js' %}"></script>
+		<script src="{% static 'scripts/owlcarousel/dist/owl.carousel.min.js' %}"></script>
+		<script src="{% static 'scripts/magnific-popup/dist/jquery.magnific-popup.min.js' %}"></script>
+		<script src="{% static 'scripts/easescroll/jquery.easeScroll.js' %}"></script>
+		<script src="{% static 'scripts/sweetalert/dist/sweetalert.min.js' %}"></script>
+		<script src="{% static 'scripts/toast/jquery.toast.min.js' %}"></script>
+		<script src="{% static 'js/e-magz.js' %}"></script>
+	</body>
+</html>
